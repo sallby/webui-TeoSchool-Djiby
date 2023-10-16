@@ -29,12 +29,9 @@ jobs:
 
       - name: Login to Azure
         run: |
-          echo '${{ secrets.AZURE_CREDENTIALS }}' | base64 > azcreds.json
-          az login --service-principal -i "@azcreds.json" --allow-no-subscriptions
-          rm azcreds.json
-        env:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-
+          az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+          az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          
       - name: Build and Push Docker Image
         run: |
           IMAGE_NAME=img_webui
