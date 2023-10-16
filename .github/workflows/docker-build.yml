@@ -28,10 +28,11 @@ jobs:
         shell: bash
 
       - name: Login to Azure
-        id: azure_login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          az login --service-principal -u ${{ secrets.AZURE_CREDENTIALS.clientId }} -p ${{ secrets.AZURE_CREDENTIALS.clientSecret}} --tenant ${{ secrets.AZURE_CREDENTIALS.tenantId }}
+          az account set --subscription ${{ secrets.AZURE_CREDENTIALS.subscriptionId }}           
+          with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Build and Push Docker Image
         run: |
