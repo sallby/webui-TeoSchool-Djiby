@@ -29,10 +29,11 @@ jobs:
 
       - name: Login to Azure
         run: |
-          az login --service-principal -u ${{ secrets.AZURE_CREDENTIALS.clientId }} -p ${{ secrets.AZURE_CREDENTIALS.clientSecret}} --tenant ${{ secrets.AZURE_CREDENTIALS.tenantId }}
-          az account set --subscription ${{ secrets.AZURE_CREDENTIALS.subscriptionId }}           
-          with:
-            creds: ${{ secrets.AZURE_CREDENTIALS }}
+          echo '${{ secrets.AZURE_CREDENTIALS }}' > azcreds.json
+          az login --service-principal -i "@azcreds.json" --allow-no-subscriptions
+          rm azcreds.json
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Build and Push Docker Image
         run: |
