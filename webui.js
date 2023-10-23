@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var redis = require(host="redis-service.teoschool.svc", port=6379);
+var redis = require('redis');
 
 var client = redis.createClient(6379, 'redis');
 client.on("error", function (err) {
