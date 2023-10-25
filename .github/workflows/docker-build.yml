@@ -37,7 +37,7 @@ jobs:
         run: |
           IMAGE_NAME=img_webui
           IMAGE_TAG=v1.0.0
-          ACR_NAME=djibyacr
+          ACR_NAME=crdjiby
           ACR_LOGIN_SERVER=$ACR_NAME.azurecr.io
 
           # Build the Docker image
