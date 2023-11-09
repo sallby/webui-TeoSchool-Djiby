@@ -53,4 +53,4 @@ jobs:
         run: |
           IMAGE_NAME=img_webui
           IMAGE_TAG=v1.0.0
-          trivy --exit-code 1 --severity HIGH,CRITICAL $IMAGE_NAME:$IMAGE_TAG
+          trivy --severity HIGH,CRITICAL $IMAGE_NAME:$IMAGE_TAG || exit 1
