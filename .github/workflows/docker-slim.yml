@@ -41,12 +41,22 @@ jobs:
           docker build -t $IMAGE_NAME:$IMAGE_TAG .
 
       - name: Slim the Image with DockerSlim
-        uses: kitabisa/docker-slim-action@v1
-        env:
-          DSLIM_HTTP_PROBE: false
-        with:
-          target: $IMAGE_NAME:$IMAGE_TAG
-          tag: "slim"
+        run: |
+          IMAGE_NAME=img_webui
+          IMAGE_TAG=v1.0.0
+          
+          # Build the full image name
+          FULL_IMAGE_NAME=$IMAGE_NAME:$IMAGE_TAG
+      
+          # Run DockerSlim on the specified image
+          docker run -v /var/run/docker.sock:/var/run/docker.sock \
+            -v $(pwd):/mnt \
+            --rm \
+            --privileged \
+            -e DSLIM_HTTP_PROBE=false \
+            --entrypoint=/bin/bash \
+            dslim/docker-slim:v1.40.6 -c "/usr/local/bin/docker-slim --target $FULL_IMAGE_NAME --continue-after 1"
+
 
       - name: Login to ACR
         run: az acr login --name crdjiby
