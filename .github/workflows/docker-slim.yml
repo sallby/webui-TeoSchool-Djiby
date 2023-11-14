@@ -55,8 +55,7 @@ jobs:
             --privileged \
             -e DSLIM_HTTP_PROBE=false \
             --entrypoint=/bin/bash \
-            dslim/docker-slim:v1.40.6 -c "/usr/local/bin/docker-slim --target $FULL_IMAGE_NAME --continue-after 1"
-
+            dslim/docker-slim:latest -c "/usr/local/bin/docker-slim --target $FULL_IMAGE_NAME --continue-after 1"
 
       - name: Login to ACR
         run: az acr login --name crdjiby
