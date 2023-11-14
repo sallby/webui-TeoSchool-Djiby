@@ -40,7 +40,7 @@ jobs:
           # Build the Docker image
           docker build -t $IMAGE_NAME:$IMAGE_TAG .
 
-      - name: Slim the Image with DockerSlim
+      - name: Slim the Image with Slim
         run: |
           IMAGE_NAME=img_webui
           IMAGE_TAG=v1.0.0
@@ -48,13 +48,8 @@ jobs:
           # Build the full image name
           FULL_IMAGE_NAME=$IMAGE_NAME:$IMAGE_TAG
       
-          # Run DockerSlim on the specified image
-          docker run -v /var/run/docker.sock:/var/run/docker.sock \
-            -v $(pwd):/mnt \
-            --rm \
-            --privileged \
-            -e DSLIM_HTTP_PROBE=false \
-            dslim/docker-slim:latest --target $FULL_IMAGE_NAME --continue-after 1
+          # Run Slim on the specified image
+          slim build --target $FULL_IMAGE_NAME --tag $FULL_IMAGE_NAME:slim --http-probe=false
 
       - name: Login to ACR
         run: az acr login --name crdjiby
