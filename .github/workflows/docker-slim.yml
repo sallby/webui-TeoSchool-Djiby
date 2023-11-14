@@ -52,8 +52,10 @@ jobs:
         run: |
           IMAGE_NAME=img_webui
           IMAGE_TAG=v1.0.0
+          
+          # Build the full image name
           FULL_IMAGE_NAME=$IMAGE_NAME:$IMAGE_TAG
-          slim build --target $FULL_IMAGE_NAME --tag $FULL_IMAGE_NAME:slim --http-probe=false
+          slim build --target $FULL_IMAGE_NAME --tag img_webui_v1_0_0_slim --http-probe=false
 
       - name: Login to ACR
         run: az acr login --name crdjiby
